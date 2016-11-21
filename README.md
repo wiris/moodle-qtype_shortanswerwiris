@@ -1,4 +1,4 @@
-# Short-Answer WIRIS question type
+# WIRIS Quizzes Short-Answer question type
 [![Build Status](https://travis-ci.org/wiris/moodle-qtype_shortanswerwiris.svg?branch=master)](https://travis-ci.org/wiris/moodle-qtype_shortanswerwiris)
 
 The WIRIS Short-Answer question type extends the Moodle Short-Answer type, adding mathematical functionality to it.
