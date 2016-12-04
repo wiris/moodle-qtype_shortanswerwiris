@@ -18,9 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/wq/question.php');
 require_once($CFG->dirroot . '/question/type/wq/step.php');
 
-class qtype_shortanswerwiris_question
-    extends qtype_wq_question
-    implements question_automatically_gradable, question_response_answer_comparer {
+class qtype_shortanswerwiris_question extends qtype_wq_question
+        implements question_automatically_gradable, question_response_answer_comparer {
     /**
      * A link to last question attempt step and also a helper class for some
      * grading issues.
@@ -92,13 +91,12 @@ class qtype_shortanswerwiris_question
         global $CFG;
         global $DB;
         $error = false;
-        if (isset($CFG->wq_fail_shortanswer_grade)
-            && $CFG->wq_fail_shortanswer_grade
-            && $CFG->wq_fail_shortanswer_grade != 'false') {
+        $conditiona = isset($CFG->wq_fail_shortanswer_grade) && $CFG->wq_fail_shortanswer_grade;
+        $conditionb = $CFG->wq_fail_shortanswer_grade != 'false';
+        if ($conditiona && $conditionb) {
             $fail = explode("@", $CFG->wq_fail_shortanswer_grade);
-            $attemptid = $DB->get_record('question_attempt_steps',
-                                         array('id' => $this->step->step_id),
-                                         'questionattemptid')->questionattemptid;
+            $attemptid = $DB->get_record('question_attempt_steps', 
+                    array('id' => $this->step->step_id), 'questionattemptid')->questionattemptid;
             $attemptid = $DB->get_record('question_attempts', array('id' => $attemptid), 'questionusageid')->questionusageid;
             $activity = $DB->get_field('question_usages', 'component', array('id' => $attemptid));
             if ($activity == 'mod_quiz') {
@@ -165,9 +163,8 @@ class qtype_shortanswerwiris_question
             // Load instance.
             $qi = $this->wirisquestioninstance;
             // Make call.
-            $request = $builder->newEvalMultipleAnswersRequest($correctvalues,
-                                                               array($response['answer']),
-                                                               $this->wirisquestion, $qi);
+            $request = $builder->newEvalMultipleAnswersRequest($correctvalues, array($response['answer']),
+                    $this->wirisquestion, $qi);
             $response = $this->call_wiris_service($request);
             $qi->update($response);
 
