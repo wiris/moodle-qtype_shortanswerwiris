@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/wq/questiontype.php');
 require_once($CFG->dirroot . '/question/type/shortanswer/questiontype.php');
 require_once($CFG->dirroot . '/question/type/wq/quizzes/quizzes.php');
-require_once('lib.php');
+require_once($CFG->dirroot . '/question/type/shortanswerwiris/lib.php');
 
 class qtype_shortanswerwiris extends qtype_wq {
 
@@ -122,11 +122,13 @@ class qtype_shortanswerwiris extends qtype_wq {
                     if (isset($wiriseditor['testFunctionName'])) {
                         foreach ($answers as $key => $value) {
                             // @codingStandardsIgnoreLine
-                            $wirisquestion .= '<assertion name="' . com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION. '" correctAnswer="' . $key . '"/>';
+                            $wirisquestion .= '<assertion name="' . 
+                                    com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION . '" correctAnswer="' . $key . '"/>';
                         }
                         foreach ($wiriseditor['testFunctionName'] as $key => $value) {
                             // @codingStandardsIgnoreLine
-                            $wirisquestion .= '<assertion name="' . com_wiris_quizzes_impl_Assertion::$EQUIVALENT_FUNCTION . '" correctAnswer="' . $key . '">';
+                            $wirisquestion .= '<assertion name="' . 
+                                    com_wiris_quizzes_impl_Assertion::$EQUIVALENT_FUNCTION . '" correctAnswer="' . $key . '">';
                             if (substr($value, 0, 1) == '#') {
                                 $value = substr($value, 1);
                             }
@@ -136,8 +138,10 @@ class qtype_shortanswerwiris extends qtype_wq {
                     } else {
                         foreach ($answers as $key => $value) {
                             // @codingStandardsIgnoreStart
-                            $wirisquestion .= '<assertion name="' . com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION. '" correctAnswer="' . $key . '"/>';
-                            $wirisquestion .= '<assertion name="' . com_wiris_quizzes_impl_Assertion::$EQUIVALENT_SYMBOLIC . '" correctAnswer="' . $key . '"/>';
+                            $wirisquestion .= '<assertion name="' . 
+                                    com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION. '" correctAnswer="' . $key . '"/>';
+                            $wirisquestion .= '<assertion name="' . 
+                                    com_wiris_quizzes_impl_Assertion::$EQUIVALENT_SYMBOLIC . '" correctAnswer="' . $key . '"/>';
                             // @codingStandardsIgnoreEnd
                         }
                     }
@@ -177,7 +181,8 @@ class qtype_shortanswerwiris extends qtype_wq {
 
                         $distribution = $this->wrsqz_get_distribution($originaltext);
                         // @codingStandardsIgnoreLine
-                        $wirisquestion .= '<data name="' . com_wiris_quizzes_impl_LocalData::$KEY_OPENANSWER_COMPOUND_ANSWER_GRADE_DISTRIBUTION . '">';
+                        $wirisquestion .= '<data name="' . 
+                                com_wiris_quizzes_impl_LocalData::$KEY_OPENANSWER_COMPOUND_ANSWER_GRADE_DISTRIBUTION . '">';
                         if ($distribution != '') {
                             $wirisquestion .= $distribution;
                         }
