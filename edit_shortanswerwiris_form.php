@@ -74,7 +74,7 @@ class qtype_shortanswerwiris_helper_edit_form extends qtype_shortanswer_edit_for
         return get_string('shortanswerwiris_addanswers', 'qtype_shortanswerwiris');
     }
     protected function add_per_answer_fields(&$mform, $label, $gradeoptions,
-                                             $minoptions = QUESTION_NUMANS_START, 
+                                             $minoptions = QUESTION_NUMANS_START,
                                              $addoptions = QUESTION_NUMANS_ADD) {
         return parent::add_per_answer_fields($mform, $label, $gradeoptions, 1, 1);
     }

@@ -121,14 +121,16 @@ class qtype_shortanswerwiris extends qtype_wq {
                     $wirisquestion .= '<assertions>';
                     if (isset($wiriseditor['testFunctionName'])) {
                         foreach ($answers as $key => $value) {
-                            // @codingStandardsIgnoreLine
-                            $wirisquestion .= '<assertion name="' . 
+                            // @codingStandardsIgnoreStart
+                            $wirisquestion .= '<assertion name="' .
                                     com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION . '" correctAnswer="' . $key . '"/>';
                         }
+                            // @codingStandardsIgnoreEnd
                         foreach ($wiriseditor['testFunctionName'] as $key => $value) {
-                            // @codingStandardsIgnoreLine
-                            $wirisquestion .= '<assertion name="' . 
+                            // @codingStandardsIgnoreStart
+                            $wirisquestion .= '<assertion name="' .
                                     com_wiris_quizzes_impl_Assertion::$EQUIVALENT_FUNCTION . '" correctAnswer="' . $key . '">';
+                            // @codingStandardsIgnoreEnd
                             if (substr($value, 0, 1) == '#') {
                                 $value = substr($value, 1);
                             }
@@ -138,9 +140,9 @@ class qtype_shortanswerwiris extends qtype_wq {
                     } else {
                         foreach ($answers as $key => $value) {
                             // @codingStandardsIgnoreStart
-                            $wirisquestion .= '<assertion name="' . 
+                            $wirisquestion .= '<assertion name="' .
                                     com_wiris_quizzes_impl_Assertion::$SYNTAX_EXPRESSION. '" correctAnswer="' . $key . '"/>';
-                            $wirisquestion .= '<assertion name="' . 
+                            $wirisquestion .= '<assertion name="' .
                                     com_wiris_quizzes_impl_Assertion::$EQUIVALENT_SYMBOLIC . '" correctAnswer="' . $key . '"/>';
                             // @codingStandardsIgnoreEnd
                         }
@@ -180,9 +182,10 @@ class qtype_shortanswerwiris extends qtype_wq {
                         $wirisquestion .= '</data>';
 
                         $distribution = $this->wrsqz_get_distribution($originaltext);
-                        // @codingStandardsIgnoreLine
-                        $wirisquestion .= '<data name="' . 
+                        // @codingStandardsIgnoreStart
+                        $wirisquestion .= '<data name="' .
                                 com_wiris_quizzes_impl_LocalData::$KEY_OPENANSWER_COMPOUND_ANSWER_GRADE_DISTRIBUTION . '">';
+                        // @codingStandardsIgnoreEnd
                         if ($distribution != '') {
                             $wirisquestion .= $distribution;
                         }

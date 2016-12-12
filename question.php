@@ -92,10 +92,9 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         global $DB;
         $error = false;
         $conditiona = isset($CFG->wq_fail_shortanswer_grade) && $CFG->wq_fail_shortanswer_grade;
-        $conditionb = $CFG->wq_fail_shortanswer_grade != 'false';
-        if ($conditiona && $conditionb) {
+        if ($conditiona && $CFG->wq_fail_shortanswer_grade != 'false') {
             $fail = explode("@", $CFG->wq_fail_shortanswer_grade);
-            $attemptid = $DB->get_record('question_attempt_steps', 
+            $attemptid = $DB->get_record('question_attempt_steps',
                     array('id' => $this->step->step_id), 'questionattemptid')->questionattemptid;
             $attemptid = $DB->get_record('question_attempts', array('id' => $attemptid), 'questionusageid')->questionusageid;
             $activity = $DB->get_field('question_usages', 'component', array('id' => $attemptid));
