@@ -141,7 +141,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     public function get_matching_answer(array $response) {
         try {
             // Quick return if no answer given.
-            if (!isset($response['answer'])) {
+            if (!isset($response['answer']) || $response['answer'] == null) {
                 return null;
             }
             // Optimization in order to avoid a service call.
