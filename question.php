@@ -50,7 +50,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         }
     }
     /**
-     * @return All the text of the question in a single string so WIRIS quizzes
+     * @return All the text of the question in a single string so Wiris Quizzes
      * can extract the variable placeholders.
      */
     public function join_all_text() {
@@ -64,7 +64,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
 
     /**
      *
-     * @return String Return the general feedback text in a single string so WIRIS
+     * @return String Return the general feedback text in a single string so Wiris
      * quizzes can extract the variable placeholders.
      */
     public function join_feedback_text() {
@@ -165,7 +165,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
             // Does nothing on production, may throw exception on test environment.
             $this->get_matching_answer_fail_test($response);
 
-            // Use the WIRIS quizzes API to grade this response.
+            // Use the Wiris Quizzes API to grade this response.
             $builder = com_wiris_quizzes_api_QuizzesBuilder::getInstance();
             // Build array of correct answers.
             $correctvalues = array();
@@ -275,7 +275,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         // We need to replace all aterisk for scaped asterisks:
         // Because shortanswer get_correct_response() methods
         // cleans all asterisks, asterisks are shortanswer wildcards.
-        // However on WIRIS shortanswers asterisk means product.
+        // However on Wiris shortanswers asterisk means product.
         foreach ($this->answers as $key => $value) {
             $this->answers[$key]->answer = str_replace('*', '\*', $value->answer);
         }
