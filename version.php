@@ -17,9 +17,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2018030600;
-$plugin->release = '3.62.0.1035';
+
 $plugin->requires = 2011060313;
-$plugin->maturity = MATURITY_STABLE;
+$plugin->maturity = MATURITY_BETA;
 $plugin->component = 'qtype_shortanswerwiris';
 $plugin->dependencies = array (
      'qtype_wq' => 2018030600
