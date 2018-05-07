@@ -250,8 +250,8 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     public function is_complete_response(array $response) {
         if (array_key_exists('answer', $response) && $this->is_empty_mathml($response['answer'])) {
             return false;
-        }else{
-           return parent::is_complete_response($response);
+        } else {
+            return parent::is_complete_response($response);
         }
     }
 
@@ -261,7 +261,8 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
 
     private function is_empty_mathml($string) {
         $mathml = simplexml_load_string($string);
-        if (gettype($mathml)!= 'boolean' && $mathml->getName() == 'math' && count($mathml->children()) == 0) {
+        if (gettype($mathml) != 'boolean' && $mathml->getName() == 'math' && count($mathml->children()) == 0) {
+
             return true;
         }
         return false;
