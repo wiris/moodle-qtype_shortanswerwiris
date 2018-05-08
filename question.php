@@ -141,7 +141,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     public function get_matching_answer(array $response) {
         try {
             // Quick return if no answer given.
-            if (!isset($response['answer']) || $response['answer'] == null) {
+            if (!isset($response['answer']) || $response['answer'] === null) {
                 return null;
             }
             // Optimization in order to avoid a service call.
@@ -245,6 +245,27 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         }
 
         return $text;
+    }
+
+    public function is_complete_response(array $response) {
+        if (array_key_exists('answer', $response) && $this->is_empty_mathml($response['answer'])) {
+            return false;
+        } else {
+            return parent::is_complete_response($response);
+        }
+    }
+
+    public function is_gradable_response(array $response) {
+        return $this->is_complete_response($response);
+    }
+
+    private function is_empty_mathml($string) {
+        $mathml = simplexml_load_string($string);
+        if (gettype($mathml) != 'boolean' && $mathml->getName() == 'math' && count($mathml->children()) == 0) {
+
+            return true;
+        }
+        return false;
     }
 
     private function is_text_answer() {

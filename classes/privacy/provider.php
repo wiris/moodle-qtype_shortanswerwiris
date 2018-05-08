@@ -14,13 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Privacy class for Wiris Quizzes Short-Answer question type.
+ *
+ * @package    qtype_shortanswerwiris
+ * @copyright  WIRIS Europe (Maths for more S.L)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace qtype_shortanswerwiris\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018050800;
-$plugin->release = '3.64.0.1038';
-$plugin->requires = 2011060313;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->component = 'qtype_shortanswerwiris';
-$plugin->dependencies = array (
-     'qtype_wq' => 2018050800
-);
+class provider implements
+    // This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider
+{
+    use \core_privacy\local\legacy_polyfill;
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function _get_reason() {
+        return 'privacy:null_reason';
+    }
+}
