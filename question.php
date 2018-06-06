@@ -269,6 +269,9 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     }
 
     private function is_text_answer() {
+        if (!empty($this->parent)) {
+            return true;
+        }
         $wrap = com_wiris_system_CallWrapper::getInstance();
         $wrap->start();
         // @codingStandardsIgnoreStart
