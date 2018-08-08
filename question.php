@@ -248,23 +248,16 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     }
 
     private function is_text_answer() {
-        $wrap = com_wiris_system_CallWrapper::getInstance();
-        $wrap->start();
         // @codingStandardsIgnoreStart
-        $inputfield = $this->wirisquestion->question->getImpl()->getLocalData(com_wiris_quizzes_impl_LocalData::$KEY_OPENANSWER_INPUT_FIELD);
-        $inputtext = ($inputfield == com_wiris_quizzes_impl_LocalData::$VALUE_OPENANSWER_INPUT_FIELD_PLAIN_TEXT);
+        $inputfield = $this->wirisquestion->question->getProperty(com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_ANSWER_FIELD_TYPE);
+        $inputtext = ($inputfield == com_wiris_quizzes_api_QuizzesConstants::$ANSWER_FIELD_TYPE_TEXT);
         // @codingStandardsIgnoreEnd
-        $wrap->stop();
-
         return $inputtext;
     }
 
     private function is_compound_answer() {
-        $wrap = com_wiris_system_CallWrapper::getInstance();
-        $wrap->start();
         // @codingStandardsIgnoreLine
-        $iscompound = $this->wirisquestion->question->getImpl()->getLocalData(com_wiris_quizzes_impl_LocalData::$KEY_OPENANSWER_COMPOUND_ANSWER);
-        $wrap->stop();
+        $iscompound = $this->wirisquestion->question->getProperty(com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_COMPOUND_ANSWER);
         return ($iscompound == 'true');
     }
 
