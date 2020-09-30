@@ -90,7 +90,8 @@ class qtype_shortanswerwiris_renderer extends qtype_wq_renderer {
         if (!$answer) {
             return '';
         }
-        $text = get_string('correctansweris', 'qtype_shortanswer', $answer['answer']);
+        $filterableAnswer = com_wiris_quizzes_impl_QuizzesImpl::getInstance()->answerToFilterableValue($answer['answer']);
+        $text = get_string('correctansweris', 'qtype_shortanswer', $filterableAnswer);
         return $question->format_text($text, FORMAT_HTML, $qa, 'question', 'correctanswer', $question->id);
     }
 

@@ -240,7 +240,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     public function format_answer($text) {
         if ($this->is_text_answer() && !$this->is_compound_answer()) {
             $text = $this->expand_variables_text($text);
-        } else {
+        } else if (!$this->is_graphical_answer()) {
             $text = $this->expand_variables_mathml($text);
         }
 
@@ -249,8 +249,8 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
 
     private function is_text_answer() {
         // @codingStandardsIgnoreStart
-        $inputfield = $this->wirisquestion->question->getProperty(com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_ANSWER_FIELD_TYPE);
-        $inputtext = ($inputfield == com_wiris_quizzes_api_QuizzesConstants::$ANSWER_FIELD_TYPE_TEXT);
+        $inputfield = $this->wirisquestion->getSlots()[0]->getAnswerFieldType();
+        $inputtext = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$TEXT_FIELD);
         // @codingStandardsIgnoreEnd
         return $inputtext;
     }
@@ -259,6 +259,14 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         // @codingStandardsIgnoreLine
         $iscompound = $this->wirisquestion->question->getProperty(com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_COMPOUND_ANSWER);
         return ($iscompound == 'true');
+    }
+
+    private function is_graphical_answer() {
+        // @codingStandardsIgnoreStart
+        $inputfield = $this->wirisquestion->getSlots()[0]->getAnswerFieldType();
+        $inputgraphical = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$INLINE_GRAPH_EDITOR);
+        // @codingStandardsIgnoreEnd
+        return $inputgraphical;
     }
 
     public function get_correct_response() {
