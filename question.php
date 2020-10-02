@@ -166,7 +166,7 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
             $this->get_matching_answer_fail_test($response);
 
             // Use the Wiris Quizzes API to grade this response.
-            $builder = com_wiris_quizzes_api_QuizzesBuilder::getInstance();
+            $builder = com_wiris_quizzes_api_Quizzes::getInstance();
             // Build array of correct answers.
             $correctvalues = array();
             $correctanswers = array();
@@ -183,9 +183,11 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
             $qi->setStudentAnswer(0, $response['answer']);
 
             // Make call.
-            $request = $builder->newFeedbackRequest($this->join_feedback_text(), $this->wirisquestion, $qi);
+            $request = $builder->newFeedbackRequest($this->join_feedback_text(), $qi);
             $response = $this->call_wiris_service($request);
             $qi->update($response);
+
+ 
 
             // Choose best answer.
             $max = 0.0;
