@@ -71,8 +71,12 @@ class qtype_shortanswerwiris_renderer extends qtype_wq_renderer {
         }
 
         // Auxiliar text
-        $show_auxiliar_text_input = $qa->get_question()->wirisquestion->question->getSlots()[0]->getProperty(com_wiris_quizzes_api_PropertyName::$SHOW_AUXILIARY_TEXT_INPUT);
-        if ($show_auxiliar_text_input) {
+        if (isset($qa->get_question()->wirisquestion->question->getSlots()[0])) {
+            $showauxiliartextinput = $qa->get_question()->wirisquestion->question->getSlots()[0]->getProperty(com_wiris_quizzes_api_PropertyName::$SHOW_AUXILIARY_TEXT_INPUT); // @codingStandardsIgnoreLine
+        } else  {
+            $showauxiliartextinput = $qa->get_question()->wirisquestion->question->getProperty(com_wiris_quizzes_api_PropertyName::$SHOW_AUXILIARY_TEXT_INPUT); // @codingStandardsIgnoreLine
+        }
+        if ($showauxiliartextinput) {
             $result .= $this->auxiliar_text($qa, $options);
         }
 
