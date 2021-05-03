@@ -187,7 +187,7 @@ class qtype_shortanswerwiris extends qtype_wq {
                         $distribution = $this->wrsqz_get_distribution($originaltext);
                         // @codingStandardsIgnoreStart
                         $wirisquestion .= '<data name="' .
-                                com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_VALUE_COMPOUND_ANSWER_GRADE_DISTRIBUTION . '">';
+                                com_wiris_quizzes_api_QuizzesConstants::$PROPERTY_COMPOUND_ANSWER_GRADE_DISTRIBUTION . '">';
                         // @codingStandardsIgnoreEnd
                         if ($distribution != '') {
                             $wirisquestion .= $distribution;
