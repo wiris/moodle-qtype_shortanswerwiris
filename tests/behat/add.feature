@@ -26,13 +26,13 @@ Feature: Test creating a Short Answer Wiris question
     Then I should see "Adding a short answer - math & science question by WIRIS"
     Then I set the following fields to these values:
       | Question name | shortanswer-wiris-001 random name    |
-      | Question text | This is a Wiris shortanswer question |     
+      | Question text | This is a Wiris shortanswer question |
     And I open Wiris Quizzes Studio
     And I type "math"
     And I click on "//*[@id='wrsUI_quizzesStudioHomeSaveButton']" "xpath_element"
     Then I set the following fields to these values:
-      | id_fraction_0 | 100%                                  |
-      | id_feedback_0 | Math is an OK good answer.           |
+      | id_fraction_0 | 100%                       |
+      | id_feedback_0 | Math is an OK good answer. |
     And I click on "//*[@id='id_updatebutton']" "xpath_element"
     And I click on "Preview" "link"
     And I switch to "questionpreview" window

@@ -37,10 +37,10 @@ Feature: Test editing a Short answer wiris question
     Then I should see "Edited shortanswer-001 name"
     When I choose "Edit question" action for "Edited shortanswer-001" in the question bank
     And I press "Blank for another choice"
-    And I Open Wiris Quizzes Studio 
+    And I Open Wiris Quizzes Studio
     And I type "math"
     And I click on "//*[@id='wrsUI_quizzesStudioHomeSaveButton']" "xpath_element"
-    Then I press "id_submitbutton"   
+    Then I press "id_submitbutton"
     Then I should see "Edited shortanswer-001 name"
     When I choose "Preview" action for "Edited shortanswer-001" in the question bank
     And I switch to "questionpreview" window

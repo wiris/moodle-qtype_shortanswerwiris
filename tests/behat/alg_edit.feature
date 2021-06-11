@@ -37,7 +37,7 @@ Feature: Test editing a Short answer wiris algorithm question
       | Question text        | Compute x plus #a or x plus #b   |
       | id_fraction_1        | 70%                              |
       | id_feedback_1        | Well at least you did something. |
-    And I press "id_submitbutton"   
+    And I press "id_submitbutton"
     Then I should see "Edited shortanswer-001 name"
     When I choose "Preview" action for "Edited shortanswer-001" in the question bank
     And I switch to "questionpreview" window

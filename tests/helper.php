@@ -22,9 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Test helper class for the shortanswerwiris question type.
@@ -61,8 +59,8 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
             14 => 'mat',
             15 => '*' );
         $form->fraction = array(
-            13 => '1.0', 
-            14 => '0.8', 
+            13 => '1.0',
+            14 => '0.8',
             15 => '0.0');
         $form->feedback = array(
             13 => array('text' => 'Math is a very good answer.', 'format' => '1'),
@@ -71,9 +69,16 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
 
         $form->qtype = question_bank::get_qtype('shortanswer');
 
-        //$form->fraction = array('1.0', '0.8', '0.0');
         // Wiris specific information.
-        $form->wirisquestion = '<question><correctAnswers><correctAnswer>math</correctAnswer><correctAnswer id="1">mat</correctAnswer><correctAnswer id="2">*</correctAnswer></correctAnswers><assertions><assertion name="syntax_math"/><assertion name="equivalent_symbolic"/><assertion name="syntax_math" correctAnswer="1" answer="1"/><assertion name="equivalent_symbolic" correctAnswer="1" answer="1"/><assertion name="syntax_math" correctAnswer="2" answer="2"/><assertion name="equivalent_symbolic" correctAnswer="2" answer="2"/></assertions><slots><slot><initialContent></initialContent></slot><slot id="1"><initialContent></initialContent></slot><slot id="2"><initialContent></initialContent></slot></slots></question>';
+        $form->wirisquestion = '<question><correctAnswers><correctAnswer>math</correctAnswer><correctAnswer id="1">mat
+                                </correctAnswer><correctAnswer id="2">*</correctAnswer></correctAnswers><assertions>
+                                <assertion name="syntax_math"/><assertion name="equivalent_symbolic"/>
+                                <assertion name="syntax_math" correctAnswer="1" answer="1"/>
+                                <assertion name="equivalent_symbolic" correctAnswer="1" answer="1"/>
+                                assertion name="syntax_math" correctAnswer="2" answer="2"/>
+                                <assertion name="equivalent_symbolic" correctAnswer="2" answer="2"/></assertions><slots><slot>
+                                <initialContent></initialContent></slot><slot id="1"><initialContent></initialContent></slot>
+                                <slot id="2"><initialContent></initialContent></slot></slots></question>';
         $form->wirislang = 'en';
         $form->wiristruefalse = '';
         return $form;
@@ -99,7 +104,31 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
             array('text' => 'This is right.', 'format' => FORMAT_HTML)
         );
 
-        $form->wirisquestion = '<question><wirisCasSession><![CDATA[<wiriscalc version="3.2"><title><math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>Untitled calc</mtext></math></title><properties><property name="decimal_separator">.</property><property name="digit_group_separator"></property><property name="float_format">mg</property><property name="imaginary_unit">i</property><property name="implicit_times_operator">false</property><property name="item_separator">,</property><property name="lang">en</property><property name="precision">4</property><property name="quizzes_question_options">true</property><property name="save_settings_in_cookies">false</property><property name="times_operator">·</property><property name="use_degrees">false</property></properties><session version="3.0" lang="en"><task><title><math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>Sheet 1</mtext></math></title><group><command><input><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">a</mi><mo>=</mo><mn>12</mn></math></input><output><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>12</mn></math></output></command><command><input><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">b</mi><mo>=</mo><mo>-</mo><mn>15</mn></math></input><output><math xmlns="http://www.w3.org/1998/Math/MathML"><mo>-</mo><mn>15</mn></math></output></command><command><input><math xmlns="http://www.w3.org/1998/Math/MathML"/></input></command></group></task></session><constructions><construction group="1">{&quot;elements&quot;:[],&quot;constraints&quot;:[],&quot;displays&quot;:[],&quot;handwriting&quot;:[]}</construction></constructions></wiriscalc>]]></wirisCasSession><correctAnswers><correctAnswer>x+#a</correctAnswer></correctAnswers><assertions><assertion name="syntax_math"/><assertion name="equivalent_symbolic"><param name="tolerance">0.001</param><param name="tolerance_digits">false</param><param name="relative_tolerance">true</param></assertion></assertions><slots><slot><initialContent></initialContent></slot></slots></question>';
+        $form->wirisquestion = '<question><wirisCasSession><![CDATA[<wiriscalc version="3.2"><title>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML"><mtext>Untitled calc</mtext></math></title>
+                                <properties><property name="decimal_separator">.</property>
+                                <property name="digit_group_separator"></property><property name="float_format">mg</property>
+                                <property name="imaginary_unit">i</property><property name="implicit_times_operator">false
+                                </property><property name="item_separator">,</property><property name="lang">en</property>
+                                <property name="precision">4</property><property name="quizzes_question_options">true</property>
+                                <property name="save_settings_in_cookies">false</property><property name="times_operator">·
+                                </property><property name="use_degrees">false</property></properties>
+                                <session version="3.0" lang="en"><task><title><math xmlns="http://www.w3.org/1998/Math/MathML">
+                                <mtext>Sheet 1</mtext></math></title><group><command><input>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">a</mi><mo>=</mo>
+                                <mn>12</mn></math></input><output><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>12</mn>
+                                </math></output></command><command><input><math xmlns="http://www.w3.org/1998/Math/MathML">
+                                <mi mathvariant="normal">b</mi><mo>=</mo><mo>-</mo><mn>15</mn></math></input><output>
+                                <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>-</mo><mn>15</mn></math></output></command>
+                                <command><input><math xmlns="http://www.w3.org/1998/Math/MathML"/></input></command></group>
+                                </task></session><constructions><construction group="1">{&quot;elements&quot;:[],&quot;constraints
+                                &quot;:[],&quot;displays&quot;:[],&quot;handwriting&quot;:[]}</construction></constructions>
+                                </wiriscalc>]]></wirisCasSession><correctAnswers><correctAnswer>x+#a</correctAnswer>
+                                </correctAnswers><assertions><assertion name="syntax_math"/>
+                                <assertion name="equivalent_symbolic"><param name="tolerance">0.001</param>
+                                <param name="tolerance_digits">false</param><param name="relative_tolerance">true</param>
+                                </assertion></assertions><slots><slot><initialContent></initialContent></slot></slots>
+                                </question>';
         $form->wirislang = 'en';
         $form->wiristruefalse = '';
 
