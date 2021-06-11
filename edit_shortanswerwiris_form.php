@@ -68,7 +68,6 @@ class qtype_shortanswerwiris_edit_form extends qtype_wq_edit_form {
     public function qtype() {
         return 'shortanswerwiris';
     }
-
 }
 
 class qtype_shortanswerwiris_helper_edit_form extends qtype_shortanswer_edit_form {
