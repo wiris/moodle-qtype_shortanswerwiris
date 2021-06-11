@@ -34,11 +34,11 @@ class behat_shortanswerwiris_base extends behat_base {
 
     /**
      * Checks for an existing readonly input.
-     * 
+     *
      * @Then I should have a readonly input.
      * @throws Exception Thrown if not found.
      */
-    public function i_should_have_a_readonly_inpuy() {
+    public function i_should_have_a_readonly_input() {
         $session = $this->getSession();
         $readonly = $session->getPage()->find('css', '.wrs_readOnly');
         if (empty($readonly)) {
