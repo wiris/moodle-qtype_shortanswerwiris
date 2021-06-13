@@ -1,14 +1,16 @@
+/* stylelint-disable */
 div.wirisanswerfielddecoration.wirisembeddeddecoration.wirisincorrect,
 div.wirisanswerfielddecoration.wiriseditordecoration.wirisincorrect div.wiriseditorwrapper {
-    background-image: url([[pix:core|i/grade_incorrect]]) !important; /* @codingStandardsIgnoreLine */
+    background-image: url([[pix:core|i/grade_incorrect]]) !important;
 }
 
 div.wirisanswerfielddecoration.wirisembeddeddecoration.wiriscorrect,
 div.wirisanswerfielddecoration.wiriseditordecoration.wiriscorrect div.wiriseditorwrapper {
-    background-image: url([[pix:core|i/grade_correct]]) !important; /* @codingStandardsIgnoreLine */
+    background-image: url([[pix:core|i/grade_correct]]) !important;
 }
 
 div.wirisanswerfielddecoration.wirisembeddeddecoration.wirispartiallycorrect,
 div.wirisanswerfielddecoration.wiriseditordecoration.wirispartiallycorrect div.wiriseditorwrapper {
-    background-image: url([[pix:core|i/grade_partiallycorrect]]) !important; /* @codingStandardsIgnoreLine */
+    background-image: url([[pix:core|i/grade_partiallycorrect]]) !important;
 }
+/* stylelint-disable */
