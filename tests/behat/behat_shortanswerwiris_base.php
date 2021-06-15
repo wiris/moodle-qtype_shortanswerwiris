@@ -15,32 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy class for Wiris Quizzes Short-Answer question type.
- *
- * @package    qtype_shortanswerwiris
+ * Step definitions base class for science essay.
+ */
+
+/**
+ * This class provides necessary methods to run behat scripts for science essays.
+ * @package    question
+ * @subpackage essaywiris
  * @copyright  WIRIS Europe (Maths for more S.L)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace qtype_shortanswerwiris\privacy;
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
-class provider implements
-    // This plugin does not store any personal user data.
-    \core_privacy\local\metadata\null_provider
-{
-    use \core_privacy\local\legacy_polyfill;
+class behat_shortanswerwiris_base extends behat_base {
 
-    /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
-     *
-     * @return  string
-     */
-    // @codingStandardsIgnoreStart
-    public static function _get_reason() {
-        // @codingStandardsIgnoreEnd
-        return 'privacy:null_reason';
-    }
 }
