@@ -41,6 +41,8 @@ jobs:
             php: '7.1'
           - moodle-branch: 'MOODLE_311_STABLE'
             php: '7.1'
+          - moodle-branch: 'MOODLE_311_STABLE'
+            php: '7.2'
           - moodle-branch: 'MOODLE_35_STABLE'
             php: '7.4'
           - moodle-branch: 'MOODLE_36_STABLE'
