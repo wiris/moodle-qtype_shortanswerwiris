@@ -33,6 +33,10 @@ jobs:
         exclude:
           # Exclude Moodle+PHP incompatible versions
           # See: https://docs.moodle.org/dev/Moodle_and_PHP
+          - moodle-branch: 'MOODLE_36_STABLE'
+            php: '7.1'
+          - moodle-branch: 'MOODLE_37_STABLE'
+            php: '7.1'
           - moodle-branch: 'MOODLE_38_STABLE'
             php: '7.1'
           - moodle-branch: 'MOODLE_39_STABLE'
@@ -41,8 +45,18 @@ jobs:
             php: '7.1'
           - moodle-branch: 'MOODLE_311_STABLE'
             php: '7.1'
+          - moodle-branch: 'MOODLE_36_STABLE'
+            php: '7.2'
+          - moodle-branch: 'MOODLE_37_STABLE'
+            php: '7.2'
           - moodle-branch: 'MOODLE_311_STABLE'
             php: '7.2'
+          - moodle-branch: 'MOODLE_35_STABLE'
+            php: '7.3'
+          - moodle-branch: 'MOODLE_36_STABLE'
+            php: '7.3'
+          - moodle-branch: 'MOODLE_37_STABLE'
+            php: '7.3'
           - moodle-branch: 'MOODLE_35_STABLE'
             php: '7.4'
           - moodle-branch: 'MOODLE_36_STABLE'
@@ -75,7 +89,7 @@ jobs:
       - name: Add filter & commons qtype
         run: |
           moodle-plugin-ci add-plugin wiris/moodle-filter_wiris
-          moodle-plugin-ci add-plugin --branch ${GITHUB_REF##*/} wiris/moodle-qtype_wq
+          moodle-plugin-ci add-plugin wiris/moodle-qtype_wq
 
       - name: Install moodle-plugin-ci
         run: |
