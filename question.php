@@ -55,9 +55,9 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
      */
     public function join_all_text() {
         $text = parent::join_all_text();
-        // Only feedback: answers should be extracted using newVariablesRequestWithQuestionData
+        // Only feedback: answers should be extracted using newVariablesRequestWithQuestionData.
         foreach ($this->base->answers as $key => $value) {
-            $text .=  ' ' . $value->feedback;
+            $text .= ' ' . $value->feedback;
         }
         return $text;
     }
