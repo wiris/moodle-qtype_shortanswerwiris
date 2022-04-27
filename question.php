@@ -20,6 +20,14 @@ require_once($CFG->dirroot . '/question/type/wq/step.php');
 
 class qtype_shortanswerwiris_question extends qtype_wq_question
         implements question_automatically_gradable, question_response_answer_comparer {
+
+    const LOCALDATA_NAME_INPUT_FIELD_TYPE = "inputField";
+    const LOCALDATA_VALUE_INPUT_FIELD_TYPE_GRAPH = "inlineGraph";
+    const LOCALDATA_VALUE_INPUT_FIELD_TYPE_TEXT = "textField";
+    
+    const LOCALDATA_NAME_COMPOUND_ANSWER = "inputCompound";
+    const LOCALDATA_VALUE_COMPOUND_ANSWER_TRUE = "true";
+
     /**
      * A link to last question attempt step and also a helper class for some
      * grading issues.
@@ -80,13 +88,13 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     public function grade_response(array $response) {
         $answer = $this->get_matching_answer($response);
         if ($answer) {
-            $fraction = $answer->fraction;
-            // Multiply Moodle fraction by quizzes grade (due to custom function
-            // grading or compound grade distribution).
+            $fraction = 0.0;
+
             $grade = $this->step->get_var('_matching_answer_grade');
             if (!empty($grade)) {
-                $fraction = $fraction * $grade;
+                $fraction = $grade;
             }
+
             $state = question_state::graded_state_for_fraction($fraction);
             return array($fraction, $state);
         } else if ($this->step->is_error()) {
@@ -95,48 +103,6 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
         } else {
             return array(0, question_state::$gradedwrong);
         }
-    }
-    /**
-     * Function used in unit testing environment. Throws an exception if it has
-     * been configured to do so.
-     * **/
-    public function get_matching_answer_fail_test(array $response) {
-        // BEGIN TEST
-        // The following "if" is used only under unit-testing conditions.
-        global $CFG;
-        global $DB;
-        $error = false;
-        $conditiona = isset($CFG->wq_fail_shortanswer_grade) && $CFG->wq_fail_shortanswer_grade;
-        if ($conditiona && $CFG->wq_fail_shortanswer_grade != 'false') {
-            $fail = explode("@", $CFG->wq_fail_shortanswer_grade);
-            $attemptid = $DB->get_record('question_attempt_steps',
-                    array('id' => $this->step->step_id), 'questionattemptid')->questionattemptid;
-            $attemptid = $DB->get_record('question_attempts', array('id' => $attemptid), 'questionusageid')->questionusageid;
-            $activity = $DB->get_field('question_usages', 'component', array('id' => $attemptid));
-            if ($activity == 'mod_quiz') {
-                $attemptid = $DB->get_record('quiz_attempts', array('uniqueid' => $attemptid), 'id')->id;
-                if ($attemptid == $fail[0]) { // Fail only the designated attempt.
-                    if (count($fail) == 1) {
-                        $error = true;
-                    } else {
-                        // Check also the name.
-                        if ($this->name == $fail[1]) {
-                            $error = true;
-                        }
-                    }
-                }
-            }
-        }
-        if (isset($CFG->wq_fail_shortanswer_grade) && $CFG->wq_fail_shortanswer_grade == 'true' && $response['answer'] == 'error') {
-            // Only allow an explicit error if defined wq_fail_shortanswer_grade.
-            $error = true;
-        }
-        // Used to simulate a grade failure when doing tests!
-        if ($error) {
-            throw new moodle_exception(get_string('failedtogradetest', 'qtype_shortanswerwiris',
-                                                 ($this->step->get_attempts() + 1)), 'qtype_wq');
-        }
-        // END TEST.
     }
 
     public function get_matching_answer(array $response) {
@@ -162,63 +128,35 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
                 return null;
             }
 
-            // Test code:
-            // Does nothing on production, may throw exception on test environment.
-            $this->get_matching_answer_fail_test($response);
-
-            // Use the Wiris Quizzes API to grade this response.
-            $builder = com_wiris_quizzes_api_Quizzes::getInstance();
-            // Build array of correct answers.
-            $correctvalues = array();
-            $correctanswers = array();
-            $i = 0;
+            $slot = array(); 
+            $slot['studentAnswer'] = $response['answer'];
+            
+            $authorAnswers = array();
             foreach ($this->base->answers as $answer) {
-                $correctvalues[] = $answer->answer;
-                $correctanswers[] = $answer;
-                $this->wirisquestion->setCorrectAnswer($i, $answer->answer);
-                $i++;
+                $authorAnswer = array();
+                $authorAnswer['value'] = $answer->answer;
+                $authorAnswer['feedback'] = $answer->feedback;
+                $authorAnswer['fraction'] = $answer->fraction;
+                $authorAnswers[] = $authorAnswer;
             }
-            // Load instance.
-            $qi = $this->wirisquestioninstance;
-            // Set correct answer to question instance.
-            $qi->setStudentAnswer(0, $response['answer']);
+            $slot['authorAnswers'] = $authorAnswers;
 
-            // Make call.
-            $request = $builder->newFeedbackRequest($this->join_feedback_text(), $qi);
-            $response = $this->call_wiris_service($request);
-            $qi->update($response);
+            $slots = array();
+            $slots[] = $slot; // There is a single slot in a short answer question.
+            
+            $response = $this->call_grade_service($slots);
 
-            // Choose best answer.
-            $max = 0.0;
-            $maxwqgrade = 0.0;
-            $answer = null;
-            for ($i = 0; $i < count($correctanswers); $i++) {
-                $wqgrade = $qi->getAnswerGrade($i, 0, $this->wirisquestion);
-                $grade = $wqgrade * $correctanswers[$i]->fraction;
+            $this->wirisquestioninstancexml = $response->{'instance'};
 
-                // Use the option that maximizes the grade of a student.
-                // In the event of a tie, chose the answer that is closest to an author answer
-                // ordered by wq grade.
-                if ($grade > $max || ($grade == $max && $wqgrade > $maxwqgrade)) {
-                    $max = $grade;
-                    $maxwqgrade = $wqgrade;
-                    $answer = $correctanswers[$i];
-                }
-            }
-            // Backup matching answer.
-            $matchinganswerid = 0;
-            // Reset variable.
-            $this->step->set_var('_matching_answer_grade', null);
-            if (!empty($answer)) {
-                $matchinganswerid = $answer->id;
-                if ($max < 1.0) {
-                    $this->step->set_var('_matching_answer_grade', $maxwqgrade, true);
-                }
-            }
+            $gradedSlots = $response->{'gradedSlots'};
+            $gradedSlot = $gradedSlots[0]; // A single slot, again.
+            $matchinganswerid = $gradedSlot->{'matchingAuthorAnswer'} ?? 0;
+            $grade = $gradedSlot->{'grade'} ?? 0.0;
 
+            $this->step->set_var('_matching_answer_grade', $grade, true);
             $this->step->set_var('_matching_answer', $matchinganswerid, true);
             $this->step->set_var('_response_hash', $responsehash, true);
-            $this->step->set_var('_qi', $qi->serialize(), true);
+            $this->step->set_var('_qi', $this->wirisquestioninstancexml, true);
             $this->step->reset_attempts();
 
             return $answer;
@@ -256,52 +194,18 @@ class qtype_shortanswerwiris_question extends qtype_wq_question
     }
 
     private function is_text_answer() {
-        $slots = $this->wirisquestion->getSlots();
-        if (isset($slots[0])) {
-            // @codingStandardsIgnoreStart
-            $inputfield = $slots[0]->getAnswerFieldType();
-            $inputtext = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$TEXT_FIELD);
-            // @codingStandardsIgnoreEnd
-            return $inputtext;
-        }
-
-        // @codingStandardsIgnoreStart
-        $inputfield = $this->wirisquestion->getAnswerFieldType();
-        $inputtext = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$TEXT_FIELD);
-        // @codingStandardsIgnoreEnd
-        return $inputtext;
-    }
-
-    private function is_compound_answer() {
-        $slots = $this->wirisquestion->getSlots();
-        if (isset($slots[0])) {
-            // @codingStandardsIgnoreStart
-            $iscompound = $slots[0]->getProperty(com_wiris_quizzes_api_PropertyName::$COMPOUND_ANSWER);
-            // @codingStandardsIgnoreEnd
-            return ($iscompound == 'true');
-        }
-
-        // @codingStandardsIgnoreStart
-        $iscompound = $this->wirisquestion->getProperty(com_wiris_quizzes_api_PropertyName::$COMPOUND_ANSWER);
-        // @codingStandardsIgnoreEnd
-        return ($iscompound == 'true');
+        $inputfield = $this->get_local_data_from_question(self::LOCALDATA_NAME_INPUT_FIELD_TYPE);
+        return $inputfield == self::LOCALDATA_VALUE_INPUT_FIELD_TYPE_TEXT;
     }
 
     private function is_graphical_answer() {
-        $slots = $this->wirisquestion->getSlots();
-        if (isset($slots[0])) {
-            // @codingStandardsIgnoreStart
-            $inputfield = $slots[0]->getAnswerFieldType();
-            $inputgraphical = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$INLINE_GRAPH_EDITOR);
-            // @codingStandardsIgnoreEnd
-            return $inputgraphical;
-        }
+        $inputfield = $this->get_local_data_from_question(self::LOCALDATA_NAME_INPUT_FIELD_TYPE);
+        return $inputfield == self::LOCALDATA_VALUE_INPUT_FIELD_TYPE_GRAPH;
+    }
 
-        // @codingStandardsIgnoreStart
-        $inputfield = $this->wirisquestion->getAnswerFieldType();
-        $inputgraphical = ($inputfield == com_wiris_quizzes_api_ui_AnswerFieldType::$INLINE_GRAPH_EDITOR);
-        // @codingStandardsIgnoreEnd
-        return $inputgraphical;
+    private function is_compound_answer() {
+        $iscompound = $this->get_local_data_from_question(self::LOCALDATA_NAME_COMPOUND_ANSWER);
+        return $iscompound == self::LOCALDATA_VALUE_COMPOUND_ANSWER_TRUE;
     }
 
     public function get_correct_response() {

@@ -44,18 +44,16 @@ class qtype_shortanswerwiris_renderer extends qtype_wq_renderer {
             $inputattributes['readonly'] = 'readonly';
         }
 
-        $feedbackimg = '';
-
         if ($options->correctness) {
             $answer = $question->get_matching_answer(array('answer' => $currentanswer));
-            $fraction = $answer ? $answer->fraction : 0;
+            $fraction = $qa->get_last_qt_var('_matching_answer_grade') ?? 0;
             $inputattributes['class'] .= ' wirisembeddedfeedback ' . $this->feedback_class($fraction);
             // Feedback image delegate to wirisembeddedfeedback class.
         }
 
         $questiontext = $question->format_questiontext($qa);
 
-        $input = html_writer::empty_tag('input', $inputattributes) . $feedbackimg;
+        $input = html_writer::empty_tag('input', $inputattributes);
 
         $result = html_writer::tag('div', $questiontext, array('class' => 'qtext'));
 
@@ -70,18 +68,7 @@ class qtype_shortanswerwiris_renderer extends qtype_wq_renderer {
                     $question->get_validation_error(array('answer' => $currentanswer)), array('class' => 'validationerror'));
         }
 
-        // Auxiliar text.
-        $slots = $qa->get_question()->wirisquestion->question->getSlots();
-        if (isset($slots[0])) {
-            $showauxiliartextinput = $slots[0]->getProperty(com_wiris_quizzes_api_PropertyName::$SHOW_AUXILIARY_TEXT_INPUT); // @codingStandardsIgnoreLine
-        } else {
-            $showauxiliartextinput = $qa->get_question()->wirisquestion->question->getProperty(com_wiris_quizzes_api_PropertyName::$SHOW_AUXILIARY_TEXT_INPUT); // @codingStandardsIgnoreLine
-        }
-
-        if ($showauxiliartextinput == "true") {
-            $result .= $this->auxiliar_text($qa, $options);
-        }
-
+        $result .= $this->add_auxiliary_text($qa, $options);
         $result .= $this->add_javascript();
         $result .= $this->lang();
         $result .= $this->question($qa);
@@ -96,12 +83,25 @@ class qtype_shortanswerwiris_renderer extends qtype_wq_renderer {
         if (!$answer) {
             return '';
         }
-        $wrap = com_wiris_system_CallWrapper::getInstance();
-        $wrap->start();
-        $filterableanswer = com_wiris_quizzes_impl_QuizzesImpl::getInstance()->answerToFilterableValue($answer['answer']);
-        $wrap->stop();
+
+        $filterableanswer = $this->answer_to_filterable_value($answer['answer']);
         $text = get_string('correctansweris', 'qtype_shortanswer', $filterableanswer);
         return $question->format_text($text, FORMAT_HTML, $qa, 'question', 'correctanswer', $question->id);
+    }
+
+    private function answer_to_filterable_value($answer) {
+        $json = json_decode($answer); // Try to decode as JSON to check if it's a GeometryFile.
+        if ($json != null & isset($json['elements'])) {
+            // The only case we need to handle is to transform Geometry File(s) into their filterable value (this is parsed
+            // & replaced by quizzes.js). MathML is parsed by the wiris filter.
+            return "<img " .
+                    "src=\"" . $CFG->wwwroot . "/question/type/wq/quizzes/service.php?name=plotter_loading.png&service=resource\" " .
+                    "alt=\"Plotter\" " .
+                    "class=\"wirisconstruction wirisgraphanimate\" " .
+                    "data-wirisconstruction=\"" . htmlspecialchars($answer) . "\"" .
+                    "/>";
+        }
+        return $answer;
     }
 
     public function feedback_class($fraction) {
