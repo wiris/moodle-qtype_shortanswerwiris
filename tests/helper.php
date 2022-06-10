@@ -67,8 +67,7 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
                                 <assertion name="equivalent_symbolic" correctAnswer="1" answer="1"/>
                                 assertion name="syntax_math" correctAnswer="2" answer="2"/>
                                 <assertion name="equivalent_symbolic" correctAnswer="2" answer="2"/></assertions><slots><slot>
-                                <initialContent></initialContent></slot><slot id="1"><initialContent></initialContent></slot>
-                                <slot id="2"><initialContent></initialContent></slot></slots></question>';
+                                <initialContent></initialContent></slot></slots></question>';
         $form->wirislang = 'en';
         $form->wiristruefalse = '';
         return $form;
