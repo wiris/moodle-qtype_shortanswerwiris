@@ -20,7 +20,7 @@ Feature: A student can answer a Wiris Short Answer question type
       | contextlevel | reference | name           |
       | Course       | C1        | Default for C1 |
     And the following "questions" exist:
-      | questioncategory | qtype            | name               | template           |
+      | questioncategory | qtype            | name               | template             |
       | Default for C1   | shortanswerwiris | shortanswerwiris-001 | scienceshortanswer |
 
   Scenario: A student executes a shortanswer wiris question
