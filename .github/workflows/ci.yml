@@ -24,6 +24,10 @@ jobs:
         database: [pgsql]
 
     steps:
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
@@ -48,7 +52,7 @@ jobs:
       - name: Add filter & commons qtype
         run: |
           moodle-plugin-ci add-plugin wiris/moodle-filter_wiris
-          moodle-plugin-ci add-plugin --branch ${GITHUB_REF##*/} wiris/moodle-qtype_wq
+          moodle-plugin-ci add-plugin --branch ${{ steps.branch-name.outputs.current_branch }} wiris/moodle-qtype_wq
 
       - name: Install moodle-plugin-ci
         run: |
