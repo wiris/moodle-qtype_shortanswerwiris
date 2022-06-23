@@ -32,4 +32,3 @@ Feature: A student can answer a Wiris Short Answer question type
     When I am on the "shortanswerwiris-001" "core_question > preview" page logged in as teacher
     And I click on "Fill in correct responses" "button"
     And I click on "Submit and finish" "button"
-
