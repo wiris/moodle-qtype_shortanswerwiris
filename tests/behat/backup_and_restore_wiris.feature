@@ -12,8 +12,8 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
     And the following "questions" exist:
-      | questioncategory | qtype            | name                  | template           |
-      | Test questions   | shortanswerwiris | shortanswer-wiris-001 | scienceshortanswer |
+      | questioncategory | qtype            | name                        | template           |
+      | Test questions   | shortanswerwiris | Short answer wiris question | scienceshortanswer |
     And the following "activities" exist:
       | activity   | name      | course | idnumber |
       | quiz       | Test quiz | C1     | quiz1    |
@@ -29,7 +29,7 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
       | Schema | Course name       | Course 2 |
       | Schema | Course short name | C2       |
     And I am on the "Course 2" "core_question > course question bank" page
-    And I choose "Edit question" action for "shortanswer-wiris-001" in the question bank
+    And I choose "Edit question" action for "Short answer wiris question" in the question bank
     Then the following fields match these values:
       | Question name    | Short answer wiris question     |
       | Question text    | Just write math: __________     |
