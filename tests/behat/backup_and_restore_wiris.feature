@@ -18,7 +18,7 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
       | activity   | name      | course | idnumber |
       | quiz       | Test quiz | C1     | quiz1    |
     And quiz "Test quiz" contains the following questions:
-      | shortanswer-wiris-001 | 1 |
+      | Short answer wiris question | 1 |
 
   @javascript
   Scenario: Backup and restore a course containing a Short Answer Wiris question
