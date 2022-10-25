@@ -85,7 +85,7 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
         $form->name = 'Short answer question';
         $form->questiontext = array('text' => 'Just write x + #a:', 'format' => FORMAT_HTML);
         $form->defaultmark = 1.0;
-        $form->generalfeedback = array('text' => '#formula - Generalfeedback: You should have said x + #a.', 
+        $form->generalfeedback = array('text' => '#formula - Generalfeedback: You should have said x + #a.',
                                        'format' => FORMAT_HTML);
         $form->usecase = false;
         $form->answer = array('x+#a');
