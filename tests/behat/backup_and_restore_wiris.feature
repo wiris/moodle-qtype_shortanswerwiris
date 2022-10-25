@@ -12,13 +12,13 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
     And the following "questions" exist:
-      | questioncategory | qtype            | name                        | template           |
-      | Test questions   | shortanswerwiris | Short answer wiris question | scienceshortanswer |
+      | questioncategory | qtype            | name                  | template     |
+      | Test questions   | shortanswerwiris | Short answer question | algorithmsaw |
     And the following "activities" exist:
       | activity   | name      | course | idnumber |
       | quiz       | Test quiz | C1     | quiz1    |
     And quiz "Test quiz" contains the following questions:
-      | Short answer wiris question | 1 |
+      | Short answer question | 1 |
 
   @javascript
   Scenario: Backup and restore a course containing a Short Answer Wiris question
@@ -31,8 +31,16 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     And I am on the "Course 2" "core_question > course question bank" page
     And I choose "Edit question" action for "Short answer wiris question" in the question bank
     Then the following fields match these values:
-      | Question name    | Short answer wiris question     |
-      | Question text    | Just write math: __________     |
-      | General feedback | Math or mat would have been OK. |
+      | Question name    | Short answer question                         |
+      | Question text    | Just write x + #a:                            |
+      | General feedback | Generalfeedback: You should have said x + #a. |
     And I open Wiris Quizzes Studio
     And I should see "math"
+
+    @javascript
+  Scenario: A student executes a restored shortanswer wiris question formulas
+    When I am on the "Short answer wiris question" "core_question > preview" page logged in as teacher
+    And I press "Submit and finish"
+    Then Generalfeedback should exist
+    And Wirisformula should exist
+    

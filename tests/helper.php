@@ -116,7 +116,7 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
                                 </correctAnswers><assertions><assertion name="syntax_math"/>
                                 <assertion name="equivalent_symbolic"><param name="tolerance">0.001</param>
                                 <param name="tolerance_digits">false</param><param name="relative_tolerance">true</param>
-                                </assertion></assertions><slots><slot><initialContent></initialContent></slot></slots>
+                                </assertion></assertions><slots><slot><initialContent>math</initialContent></slot></slots>
                                 </question>';
         $form->wirislang = 'en';
         $form->wiristruefalse = '';
