@@ -33,7 +33,7 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     Then the following fields match these values:
       | Question name    | Short answer question                         |
       | Question text    | Just write x + #a:                            |
-      | General feedback | Generalfeedback: You should have said x + #a. |
+      | General feedback | #formula - Generalfeedback: You should have said x + #a. |
     And I open Wiris Quizzes Studio
     And I should see "math"
 
