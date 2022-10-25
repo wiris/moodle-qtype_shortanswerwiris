@@ -5,6 +5,8 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
   I need to be able to backup and restore them
 
   Background:
+    Given the "wiris" filter is "on"
+    Given the "mathjaxloader" filter is "disabled"
     And the following "courses" exist:
       | fullname | shortname | category |
       | Course 1 | C1        | 0        |
@@ -43,5 +45,5 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     And I click on "Fill in correct responses" "button"
     And I click on "Submit and finish" "button"
     Then Generalfeedback should exist
-    And I wait "5" seconds
+    And I wait "2" seconds
     Then Wirisformula should exist
