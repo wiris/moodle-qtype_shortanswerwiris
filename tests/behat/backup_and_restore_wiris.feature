@@ -40,6 +40,6 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
   @javascript
   Scenario: A teacher executes a restored shortanswer wiris question formulas
     When I am on the "Short answer question" "core_question > preview" page logged in as teacher
-    And I press "Submit and finish" "button"
+    And I click on "Submit and finish" "button"
     Then Generalfeedback should exist
     And Wirisformula should exist
