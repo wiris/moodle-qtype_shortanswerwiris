@@ -29,7 +29,7 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
       | Schema | Course name       | Course 2 |
       | Schema | Course short name | C2       |
     And I am on the "Course 2" "core_question > course question bank" page
-    And I choose "Edit question" action for "Short answer wiris question" in the question bank
+    And I choose "Edit question" action for "Short answer question" in the question bank
     Then the following fields match these values:
       | Question name    | Short answer question                         |
       | Question text    | Just write x + #a:                            |
@@ -37,9 +37,9 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     And I open Wiris Quizzes Studio
     And I should see "math"
 
-    @javascript
+  @javascript
   Scenario: A student executes a restored shortanswer wiris question formulas
-    When I am on the "Short answer wiris question" "core_question > preview" page logged in as teacher
+    When I am on the "Short answer question" "core_question > preview" page logged in as teacher
     And I press "Submit and finish"
     Then Generalfeedback should exist
     And Wirisformula should exist
