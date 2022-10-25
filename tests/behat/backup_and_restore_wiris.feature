@@ -38,9 +38,8 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     And I should see "math"
 
   @javascript
-  Scenario: A student executes a restored shortanswer wiris question formulas
+  Scenario: A teacher executes a restored shortanswer wiris question formulas
     When I am on the "Short answer question" "core_question > preview" page logged in as teacher
-    And I press "Submit and finish"
+    And I press "Submit and finish" "button"
     Then Generalfeedback should exist
     And Wirisformula should exist
-    
