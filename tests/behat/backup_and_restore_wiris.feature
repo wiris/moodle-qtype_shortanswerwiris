@@ -46,4 +46,4 @@ Feature: Test duplicating a quiz containing a Short Answer Wiris question
     And I click on "Submit and finish" "button"
     Then Generalfeedback should exist
     And I wait "2" seconds
-    Then Wirisformula should exist
+    Then a Wirisformula containing "12" should exist
