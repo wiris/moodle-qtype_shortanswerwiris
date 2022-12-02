@@ -22,5 +22,5 @@ $plugin->release = '4.6.0';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'qtype_shortanswerwiris';
 $plugin->dependencies = array (
-     'qtype_wq' => 2022111100
+     'qtype_wq' => 2022120200
 );
