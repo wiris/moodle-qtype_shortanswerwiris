@@ -22,14 +22,14 @@ Feature: Test creating a Short Answer Wiris question
     And I choose the question type "Short answer - science"
     Then I should see "Adding a short answer - math & science question by WIRIS"
     Then I set the following fields to these values:
+    And I add a "Short answer" question filling the form with:
       | Question name | shortanswer-wiris-001                |
       | Question text | This is a Wiris shortanswer question |
+      | id_fraction_0 | 100%                       |
+      | id_feedback_0 | 42 is an OK good answer.   |
     And I open Wiris Quizzes Studio
     And I wait "2" seconds
     And I type "42"
     And I save Wiris Quizzes Studio
-    Then I set the following fields to these values:
-      | id_fraction_0 | 100%                       |
-      | id_feedback_0 | 42 is an OK good answer.   |
     And I press "id_submitbutton"
     Then I should see "shortanswer-wiris-001"
