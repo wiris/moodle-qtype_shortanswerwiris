@@ -81,14 +81,10 @@ implements question_automatically_gradable, question_response_answer_comparer {
         $answer = $this->get_matching_answer($response);
         if ($answer) {
             $fraction = $answer->fraction;
+
             // Multiply Moodle fraction by quizzes grade (due to custom function
             // grading or compound grade distribution).
-            $grade = $this->step->get_var('_matching_answer_grade');
-
-            if (empty($grade)) {
-                $responsehash = md5($response['answer']);
-                $grade = $this->step->get_var('_' . substr($responsehash, 0, 6) . '_matching_answer_grade');
-            }
+            $grade = $this->step->get_var_in_answer_cache('_matching_answer_grade', $response['answer']);
 
             if (!empty($grade)) {
                 $fraction = $fraction * $grade;
@@ -160,16 +156,11 @@ implements question_automatically_gradable, question_response_answer_comparer {
             }
 
             // Optimization in order to avoid a service call.
-            $responsehash = md5($response['answer']);
-            $cachedresponses = $this->step->get_var('_response_hash') ?? '';
+            $answer = $response['answer'];
+            $responsehash = md5($answer);
 
-            if (str_contains($cachedresponses, $responsehash)) {
-                $matchinganswer = $this->step->get_var('_matching_answer');
-
-                if (empty($matchinganswer)) {
-                    $matchinganswer = $this->step->get_var('_' . substr($responsehash, 0, 6) . '_matching_answer');
-                }
-
+            if ($this->step->is_answer_cached($answer)) {
+                $matchinganswer = $this->step->get_var_in_answer_cache('_matching_answer', $answer);
                 if (!empty($matchinganswer)) {
                     return $this->base->answers[$matchinganswer];
                 } else if (!is_null($matchinganswer)) {
