@@ -180,9 +180,6 @@ implements question_automatically_gradable, question_response_answer_comparer {
                 if ($answer == '') {
                     return null;
                 }
-
-                // Questions with parent should be graded together in multianswerwiris qtype!
-                throw new moodle_exception('Questions with parent should be graded together');
             }
 
             // Test code:
