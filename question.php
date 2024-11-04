@@ -250,7 +250,7 @@ implements question_automatically_gradable, question_response_answer_comparer {
             return $answer;
         } catch (moodle_exception $e) {
             // Notify of the error.
-            $this->step->inc_attempts();
+            $this->step->inc_attempts($e);
             throw $e;
         }
     }
