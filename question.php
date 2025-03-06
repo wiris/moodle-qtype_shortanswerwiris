@@ -344,8 +344,7 @@ implements question_automatically_gradable, question_response_answer_comparer {
         return $correct;
     }
 
-    public function is_complete_response(array $response)
-    {
+    public function is_complete_response(array $response) {
         return $this->base->is_complete_response($response) && !$this->is_empty_mathml($response['answer']);
     }
 
@@ -354,8 +353,7 @@ implements question_automatically_gradable, question_response_answer_comparer {
             || $mathml == '<math xmlns="http://www.w3.org/1998/Math/MathML"></math>';
     }
 
-    public function is_gradable_response(array $response)
-    {
+    public function is_gradable_response(array $response) {
         return $this->is_complete_response($response);
     }
 }
