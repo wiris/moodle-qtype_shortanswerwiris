@@ -31,7 +31,7 @@ implements question_automatically_gradable, question_response_answer_comparer {
      */
     public $answers;
 
-    public function __construct(question_definition $base = null) {
+    public function __construct(?question_definition $base = null) {
         parent::__construct($base);
         $this->step = new qtype_wirisstep();
     }
