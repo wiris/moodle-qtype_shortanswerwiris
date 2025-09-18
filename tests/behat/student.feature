@@ -1,4 +1,4 @@
-@javascript @qtype_shortanswerwiris @studentwiris 
+@javascript @qtype_shortanswerwiris @studentwiris @wqmdl-274
 Feature: Student answers a quiz with a Short answer (WIRIS) question
 
     Background:
