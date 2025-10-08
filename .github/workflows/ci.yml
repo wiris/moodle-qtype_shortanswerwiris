@@ -152,6 +152,18 @@ jobs:
         run: |
           moodle-plugin-ci add-plugin wiris/moodle-filter_wiris
           
+      # 3.5. Install Wiris Quizzes plugin.
+      - name: Add Wiris Quizzes plugin
+        id: install-plugin-quizzes
+        if: ${{ always() }}
+        continue-on-error: true
+        run: |
+          moodle-plugin-ci add-plugin --branch ${{ env.BRANCH_NAME }} wiris/moodle-qtype_wq
+      - name: Add Wiris Quizzes plugin using the main branch
+        if: ${{ steps.install-plugin-quizzes.outcome != 'success' }}
+        run: |
+          moodle-plugin-ci add-plugin --branch main wiris/moodle-qtype_wq
+       
       # 4. Install plugin and configure DB.
       - name: Install moodle-plugin-ci
         run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
