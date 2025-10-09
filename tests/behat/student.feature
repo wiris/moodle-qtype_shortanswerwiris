@@ -1,6 +1,5 @@
 @javascript @qtype_shortanswerwiris @studentwiris @wqmdl-274
 Feature: Student answers a quiz with a Short answer (WIRIS) question
-#The quiz creation seems not to be working correctly. Needs to be rechecked
 
     Background:
     Given the following "users" exist:
