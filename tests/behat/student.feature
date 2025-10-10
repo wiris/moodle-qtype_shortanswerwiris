@@ -32,7 +32,7 @@ Feature: Student answers a quiz with a Short answer (WIRIS) question
     Scenario: Student attempts and submits the Short answer (WIRIS) quiz
         Given I am on the "WIRIS SA Quiz" "mod_quiz > View" page logged in as "student1"
         When I press "Attempt quiz"
-        And I wait until the page is ready
+        And I wait "2" "seconds"
         And I set the field "Answer" to "energy"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"
