@@ -1,4 +1,4 @@
-@qtype_shortanswerwiris @wq @javascript @student @attempt @regression
+@qtype @qtype_shortanswerwiris @wq @javascript @student @attempt @regression
 Feature: Student answers a quiz with a Short answer (WIRIS) question
 
     Background:
