@@ -1,4 +1,4 @@
-@qtype_shortanswerwiris @wq @javascript @student @attempt @inputoptions @regression
+@qtype @qtype_shortanswerwiris @wq @javascript @student @attempt @inputoptions @regression
 Feature: Short answer (WIRIS) answer-field input options
     In order to trust every Short answer (WIRIS) answer-field configuration
     As a student
