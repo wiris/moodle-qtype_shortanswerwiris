@@ -16,11 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026073001;
+$plugin->version = 2026090200;
 $plugin->requires = 2024100700; // Moodle 4.5.0.
-$plugin->release = '4.19.4';
+$plugin->release = '4.19.5';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'qtype_shortanswerwiris';
 $plugin->dependencies = array(
-     'qtype_wq' => 2026073001
+     'qtype_wq' => 2026090200
 );
