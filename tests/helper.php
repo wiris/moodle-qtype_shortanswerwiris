@@ -211,7 +211,8 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
             '<p>Draw the line y = x.</p>',
             'x',
             '<localData><data name="inputField">inlineGraph</data></localData>',
-            '<slots><slot><initialContent></initialContent></slot></slots>'
+            // An empty initialContent string is not valid GeometryFile JSON.
+            '<slots><slot/></slots>'
         );
     }
 
@@ -224,12 +225,12 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
         return $this->make_input_type_form_data(
             'SA WIRIS compound',
             '<p>Give the slope and intercept of y = x + 1.</p>',
-            'x+1',
+            'slope = 1' . "\n" . 'intercept = 1',
             '<localData><data name="inputField">popupEditor</data>'
                 . '<data name="inputCompound">true</data>'
                 . '<data name="gradeCompound">distribute</data></localData>',
-            '<slots><slot><initialContent></initialContent></slot>'
-                . '<slot><initialContent></initialContent></slot></slots>'
+            // The two compound fields belong to one answer slot.
+            '<slots><slot/></slots>'
         );
     }
 }
