@@ -6,11 +6,8 @@ Feature: Short answer (WIRIS) answer-field input options
 
     # The Wiris Quizzes answer-field type lives in the question's <localData>
     # (inputField: textField | inlineEditor | inlineGraph | popupEditor+inputCompound).
-    # Only the plain-text field is a real HTML input, so it is exercised end to end
-    # (typed + graded). The equation, graphical and compound fields are MathType /
-    # canvas overlays that cannot be driven from the keyboard, so they are covered
-    # at the level E2E can observe: the question renders in an attempt and the
-    # attempt can be completed. Grading those inputs is covered by PHPUnit.
+    # The text field is typed and graded. The equation, graphical and compound
+    # scenarios check initialized widgets, compound labels and attempt submission.
     # Questions are built from the qtype_shortanswerwiris test helper templates.
 
     Background:
@@ -45,7 +42,7 @@ Feature: Short answer (WIRIS) answer-field input options
         When I am on the "SA Text Quiz" "mod_quiz > View" page logged in as "student1"
         And I press "Attempt quiz"
         # Quizzes replaces the hidden Moodle input asynchronously.
-        And I wait until ".wirisanswerfield.wirisprocessed:not(.wiriserrorprocessing)" "css_element" exists
+        And I wait until the WIRIS answer fields are ready
         And I set the field "Answer" to "energy"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"
@@ -74,9 +71,7 @@ Feature: Short answer (WIRIS) answer-field input options
         When I am on the "SA Input Quiz" "mod_quiz > View" page logged in as "student1"
         And I press "Attempt quiz"
         # Wait for the actual widgets, including both compound answer fields.
-        And I wait until ".wrsUI_aux_mathTypeComponentWrapper[style*='opacity: 1']" "css_element" exists
-        And I wait until ".wrsUI_aux_graphComponentWrapper[style*='opacity: 1']" "css_element" exists
-        And I wait until ".wrsUI_quizzesCompoundFieldRow:nth-child(2)" "css_element" exists
+        And I wait until the WIRIS answer fields are ready
         Then I should see "Write the expression x + 1."
         And I should see "Draw the line y = x."
         And I should see "Give the slope and intercept of y = x + 1."

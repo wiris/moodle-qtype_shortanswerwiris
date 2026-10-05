@@ -211,14 +211,17 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
             '<p>Draw the line y = x.</p>',
             'x',
             '<localData><data name="inputField">inlineGraph</data></localData>',
-            // An empty initialContent string is not valid GeometryFile JSON.
-            '<slots><slot/></slots>'
+            // Omitting initialContent can still leave an empty string in the JS client.
+            // Graph expects a valid GeometryFile even when its initial canvas is empty.
+            '<slots><slot><initialContent type="GeometryFile">'
+                . '{"elements":[],"constraints":[],"displays":[{}],"handwriting":[]}'
+                . '</initialContent></slot></slots>'
         );
     }
 
     /**
-     * Compound answer: several answer boxes inside one question. Not
-     * keyboard-fillable; the E2E test checks it renders and submits.
+     * Compound answer: several answer boxes inside one response slot.
+     * The E2E test checks the rendered labels and attempt submission.
      * @return stdClass
      */
     public function get_shortanswerwiris_question_form_data_compound() {

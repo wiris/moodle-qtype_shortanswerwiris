@@ -34,8 +34,7 @@ Feature: Student answers a quiz with a Short answer (WIRIS) question
     Scenario: Student attempts and submits the Short answer (WIRIS) quiz
         Given I am on the "WIRIS SA Quiz" "mod_quiz > View" page logged in as "student1"
         When I press "Attempt quiz"
-        And I wait until ".wirisanswerfield.wirisprocessed:not(.wiriserrorprocessing)" "css_element" exists
-        And I wait until ".wrsUI_quizzesAnswerField .wrsUI_textField > input" "css_element" exists
+        And I wait until the WIRIS answer fields are ready
         And I set the field "Answer" to "energy"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"
