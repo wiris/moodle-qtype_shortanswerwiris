@@ -211,25 +211,29 @@ class qtype_shortanswerwiris_test_helper extends question_test_helper {
             '<p>Draw the line y = x.</p>',
             'x',
             '<localData><data name="inputField">inlineGraph</data></localData>',
-            '<slots><slot><initialContent></initialContent></slot></slots>'
+            // Omitting initialContent can still leave an empty string in the JS client.
+            // Graph expects a valid GeometryFile even when its initial canvas is empty.
+            '<slots><slot><initialContent type="GeometryFile">'
+                . '{"elements":[],"constraints":[],"displays":[{}],"handwriting":[]}'
+                . '</initialContent></slot></slots>'
         );
     }
 
     /**
-     * Compound answer: several answer boxes inside one question. Not
-     * keyboard-fillable; the E2E test checks it renders and submits.
+     * Compound answer: several answer boxes inside one response slot.
+     * The E2E test checks the rendered labels and attempt submission.
      * @return stdClass
      */
     public function get_shortanswerwiris_question_form_data_compound() {
         return $this->make_input_type_form_data(
             'SA WIRIS compound',
             '<p>Give the slope and intercept of y = x + 1.</p>',
-            'x+1',
+            'slope = 1' . "\n" . 'intercept = 1',
             '<localData><data name="inputField">popupEditor</data>'
                 . '<data name="inputCompound">true</data>'
                 . '<data name="gradeCompound">distribute</data></localData>',
-            '<slots><slot><initialContent></initialContent></slot>'
-                . '<slot><initialContent></initialContent></slot></slots>'
+            // The two compound fields belong to one answer slot.
+            '<slots><slot/></slots>'
         );
     }
 }

@@ -22,10 +22,10 @@ Feature: Student answers a quiz with a Short answer (WIRIS) question
         | contextlevel | reference | name       |
         | Course       | C1        | WIRIS bank | 
 
-    # Create a WIRIS Short-answer with two answers, first is correct
+    # Use a plain-text answer field for the standard field-filling step.
     And the following "questions" exist:
-        | questioncategory | qtype            | name                | questiontext  | defaultmark | answers[1] | fraction[1] | answers[2] | fraction[2] |
-        | WIRIS bank       | shortanswerwiris | SA WIRIS – basics   | <p>Type the quantity represented by E in E=mc^2.</p> | 1.0         | energy     | 1.0         | power      | 0.0         |
+        | questioncategory | qtype            | name              | template  | questiontext                                      | defaultmark |
+        | WIRIS bank       | shortanswerwiris | SA WIRIS – basics | textfield | <p>Type the quantity represented by E in E=mc^2.</p> | 1.0         |
 
     And quiz "WIRIS SA Quiz" contains the following questions:
         | question            | page |
@@ -34,7 +34,7 @@ Feature: Student answers a quiz with a Short answer (WIRIS) question
     Scenario: Student attempts and submits the Short answer (WIRIS) quiz
         Given I am on the "WIRIS SA Quiz" "mod_quiz > View" page logged in as "student1"
         When I press "Attempt quiz"
-        And I wait "2" seconds
+        And I wait until the WIRIS answer fields are ready
         And I set the field "Answer" to "energy"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"

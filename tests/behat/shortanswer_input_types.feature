@@ -6,11 +6,8 @@ Feature: Short answer (WIRIS) answer-field input options
 
     # The Wiris Quizzes answer-field type lives in the question's <localData>
     # (inputField: textField | inlineEditor | inlineGraph | popupEditor+inputCompound).
-    # Only the plain-text field is a real HTML input, so it is exercised end to end
-    # (typed + graded). The equation, graphical and compound fields are MathType /
-    # canvas overlays that cannot be driven from the keyboard, so they are covered
-    # at the level E2E can observe: the question renders in an attempt and the
-    # attempt can be completed. Grading those inputs is covered by PHPUnit.
+    # The text field is typed and graded. The equation, graphical and compound
+    # scenarios check initialized widgets, compound labels and attempt submission.
     # Questions are built from the qtype_shortanswerwiris test helper templates.
 
     Background:
@@ -44,6 +41,8 @@ Feature: Short answer (WIRIS) answer-field input options
             | SA text field | 1    |
         When I am on the "SA Text Quiz" "mod_quiz > View" page logged in as "student1"
         And I press "Attempt quiz"
+        # Quizzes replaces the hidden Moodle input asynchronously.
+        And I wait until the WIRIS answer fields are ready
         And I set the field "Answer" to "energy"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"
@@ -63,9 +62,7 @@ Feature: Short answer (WIRIS) answer-field input options
         And the following "activities" exist:
             | activity | name          | course | idnumber |
             | quiz     | SA Input Quiz | C1     | saquiz2  |
-        # All three on a single page so the attempt needs no page-to-page
-        # navigation (navigating away from a live MathType/graph overlay can raise
-        # a browser "leave page?" alert, which makes multi-page steps flaky).
+        # All three input options appear on the same attempt page.
         And quiz "SA Input Quiz" contains the following questions:
             | question           | page |
             | SA inline equation | 1    |
@@ -73,10 +70,13 @@ Feature: Short answer (WIRIS) answer-field input options
             | SA compound        | 1    |
         When I am on the "SA Input Quiz" "mod_quiz > View" page logged in as "student1"
         And I press "Attempt quiz"
-        # Every input option renders on the attempt page.
+        # Wait for the actual widgets, including both compound answer fields.
+        And I wait until the WIRIS answer fields are ready
         Then I should see "Write the expression x + 1."
         And I should see "Draw the line y = x."
         And I should see "Give the slope and intercept of y = x + 1."
+        And I should see "slope" in the ".wrsUI_quizzesCompoundFieldRow:nth-child(1)" "css_element"
+        And I should see "intercept" in the ".wrsUI_quizzesCompoundFieldRow:nth-child(2)" "css_element"
         And I click on "Finish attempt ..." "link"
         And I press "Submit all and finish"
         And I click on "Submit all and finish" "button" in the "Submit all your answers and finish?" "dialogue"
